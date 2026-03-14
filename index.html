@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>گۆڕینی فۆنتی ناوەکەت</title>
+    <style>
+        /* ناساندنی هەر ١٠ فۆنتەکە بە وێبسایتەکە */
+        @font-face { font-family: 'a1'; src: url('fonts/a1.ttf'); }
+        @font-face { font-family: 'a2'; src: url('fonts/a2.ttf'); }
+        @font-face { font-family: 'a3'; src: url('fonts/a3.ttf'); }
+        @font-face { font-family: 'a4'; src: url('fonts/a4.ttf'); }
+        @font-face { font-family: 'a5'; src: url('fonts/a5.ttf'); }
+        @font-face { font-family: 'a6'; src: url('fonts/a6.ttf'); }
+        @font-face { font-family: 'a7'; src: url('fonts/a7.ttf'); }
+        @font-face { font-family: 'a8'; src: url('fonts/a8.ttf'); }
+        @font-face { font-family: 'a9'; src: url('fonts/a9.ttf'); }
+        @font-face { font-family: 'a10'; src: url('fonts/a10.ttf'); }
+
+        body {
+            font-family: 'Tahoma', Arial, sans-serif;
+            background-color: #f0f2f5;
+            text-align: center;
+            padding: 20px;
+            color: #333;
+        }
+        h1 { color: #1a73e8; }
+        .input-container { margin-bottom: 30px; }
+        
+        input[type="text"] {
+            width: 80%;
+            max-width: 400px;
+            padding: 15px;
+            font-size: 18px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus { border-color: #1a73e8; }
+        
+        .results-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        .result-box {
+            background-color: #fff;
+            padding: 15px;
+            width: 90%;
+            max-width: 500px;
+            font-size: 35px; /* قەبارەی فۆنت */
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+        .result-box:hover {
+            transform: scale(1.02);
+            background-color: #e8f0fe;
+        }
+        .font-name {
+            font-family: 'Tahoma', sans-serif;
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 5px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>ناوەکەت بە فۆنتی جیاواز</h1>
+    <div class="input-container">
+        <input type="text" id="nameInput" placeholder="ناوەکەت لێرە بنووسە..." oninput="generateFonts()">
+        <p style="font-size: 14px; color: #666;">تێبینی: کرتە لە هەر ناوێک بکە بۆ ئەوەی ڕاستەوخۆ کۆپی ببێت.</p>
+    </div>
+
+    <div class="results-container" id="results">
+        </div>
+
+    <script>
+        // لیستی ئەو ١٠ فۆنتەی کە لە سەرەوە ناساندوومانن
+        const myFonts = ['a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9', 'a10'];
+
+        function generateFonts() {
+            const name = document.getElementById('nameInput').value.trim();
+            const resultsDiv = document.getElementById('results');
+            
+            resultsDiv.innerHTML = '';
+
+            if (name === '') return;
+
+            myFonts.forEach(fontFamilyName => {
+                const box = document.createElement('div');
+                box.className = 'result-box';
+                
+                // سەپاندنی فۆنتەکە بەسەر سندوقەکەدا
+                box.style.fontFamily = fontFamilyName;
+                
+                // نیشاندانی ناوی فۆنتەکە بە بچووکی و ناوەکەی بەکارهێنەر بە فۆنتە نوێیەکە
+                box.innerHTML = `<span class="font-name">فۆنتی: ${fontFamilyName}</span>${name}`;
+                
+                // کۆپیکردنی ناوەکە کاتێک کلیکی لێ دەکرێت
+                box.onclick = function() {
+                    // تەنها ناوەکە کۆپی دەکات، نەک ناوی فۆنتەکە
+                    navigator.clipboard.writeText(name);
+                    
+                    const originalBg = this.style.backgroundColor;
+                    this.style.backgroundColor = '#cce5ff';
+                    this.innerHTML = `<span class="font-name" style="color:#0056b3;">کۆپی کرا! ✔</span>${name}`;
+                    
+                    setTimeout(() => {
+                        this.style.backgroundColor = originalBg;
+                        this.innerHTML = `<span class="font-name">فۆنتی: ${fontFamilyName}</span>${name}`;
+                    }, 1000);
+                };
+                
+                resultsDiv.appendChild(box);
+            });
+        }
+    </script>
+
+</body>
+</html>
